@@ -1,6 +1,8 @@
 = alphasign
 
-Description goes here.
+A little gem to put messages on an LED sign, if that sign speak Alpha
+Sign protocol, and if I don't get my sign taken away before I get this
+to work.
 
 == Contributing to alphasign
  
