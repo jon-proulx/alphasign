@@ -6,14 +6,14 @@ to work.
 
 == Example code
 
-#!/usr/bin/env ruby
-require 'rubygems'
-require 'alphasign'
-
-#specify serial port
-sign=AlphaSign.new('/dev/ttyS0')
-#write text to sign
-sign.write("foo")
+   #!/usr/bin/env ruby
+   require 'rubygems'
+   require 'alphasign'
+   
+   #specify serial port
+   sign=AlphaSign.new('/dev/ttyS0')
+   #write text to sign
+   sign.write("foo")
 
 
 == Contributing to alphasign
