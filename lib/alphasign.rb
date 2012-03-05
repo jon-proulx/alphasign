@@ -71,20 +71,21 @@ class AlphaSign
     # going to expose that possibility yet but we will recognize this
     # as an instance variable Where "Z" all units, "00" first unit or
     # broadcast?
-    @alddr = [ 'Z00' ].pack('A3')
+    @addr = [ 'Z00' ].pack('A3')
     
   end
 
   # we don't have an open yet so this still kludgey and enfoces using
   # only :wtxt command as thats the only one we know we can do
-   def  write (msg, position=:middle, mode=:fill)
+   def  write (msg, position=:middle, mode=:rotate)
      @alphaFormat = StartMode + Position[position] + Mode[mode]
-     @alphaHeader = StartHeader + @addr + StartCMD[:wtxt] + @alphaFormat
-     SerialPort.open(@device, Baud, DataBits, StopBits, Parity)  do  |sp|
-       sp.write @alphaHeader
-       sp.write msg
-       sp.write Footer
-     end
+     @alphaHeader =  StartHeader + @addr +  StartCMD[:wtxt] + @alphaFormat
+     sp=SerialPort.new(@device,  
+                     Baud,  DataBits,  StopBits,  Parity)
+     sp.write @alphaHeader
+     sp.write msg
+     sp.write Footer
+     sp.close
    end
 
 
