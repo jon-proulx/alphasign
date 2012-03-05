@@ -1,17 +1,22 @@
 class AlphaSign
+  # Require 'serialport' gem 
   require 'serialport'
-  #Alpha serial port settings
+  
+  #We have a relatively large number of potocol constants
+
+  ###Serial config
   Baud=9600
   DataBits=7
   Parity=SerialPort::EVEN
   StopBits=2
-  
+  ###
+
   #this was much more complex in original, but due to packing spec
   #effectively reduced to this, and remains voodoo but apparently
   #necessary voodoo
   Preamble = [ ']', ']'].pack('x10ax10a')
   # everything starts with this, nulls are to auto set baud on unit
-  StartHeader = alphaPreamble + [ 0x01 ].pack('x20C')
+  StartHeader = Preamble + [ 0x01 ].pack('x20C')
   # this is still a bit dubious, docs say "A" for write text file, but
   # example and experience show "AA" is needed, other codes are as yet
   # untested YMMV..I simply doubled the char listed in docs. only 'wtxt'
@@ -30,9 +35,10 @@ class AlphaSign
     :bulletin => [ 0x02, 'OO' ].pack('CA2'), # write bulletin message
   } 
   
-  # mode bits see proto doc section 4.2.4 for possibilities
+  # Marker for start of mode config
   StartMode = [ 0x1b ].pack('C')
-  # Position
+
+  # Vertical Position
   Position = {
     :middle => [ 0x20 ].pack('C'),
     :top => [ 0x22 ].pack('C'),
@@ -56,11 +62,30 @@ class AlphaSign
 
   Footer = [0x04].pack("C") # EOT end of transmission
   
-  # Where "Z" all units, "00" first unit or broadcast?
-  alddr = [ 'Z00' ].pack('A3') 
-  
-  alphaFormat = StartMode + Position[:middle] + Mode[:fill]
-  alphaHeader = alphaStartHeader + alphaAddr + alphaStartCMD[:wtxt] + alphaFormat
+  # @param [String] device the serial device the sign is connected to
+  # for now we only speak rs232
+  def  initialize (device = "/dev/ttyS0")
+    @device= device
+
+    # Protocol allows multiple signs on the same port, we are not
+    # going to expose that possibility yet but we will recognize this
+    # as an instance variable Where "Z" all units, "00" first unit or
+    # broadcast?
+    @alddr = [ 'Z00' ].pack('A3')
+    
+  end
+
+  # we don't have an open yet so this still kludgey and enfoces using
+  # only :wtxt command as thats the only one we know we can do
+   def  write (msg, position=:middle, mode=:fill)
+     @alphaFormat = StartMode + Position[position] + Mode[mode]
+     @alphaHeader = StartHeader + @addr + StartCMD[:wtxt] + @alphaFormat
+     SerialPort.open(@device, Baud, DataBits, StopBits, Parity)  do  |sp|
+       sp.write @alphaHeader
+       sp.write msg
+       sp.write Footer
+     end
+   end
 
 
 
