@@ -4,6 +4,18 @@ A little gem to put messages on an LED sign, if that sign speak Alpha
 Sign protocol, and if I don't get my sign taken away before I get this
 to work.
 
+== Example code
+
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'alphasign'
+
+#specify serial port
+sign=AlphaSign.new('/dev/ttyS0')
+#write text to sign
+sign.write("foo")
+
+
 == Contributing to alphasign
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
