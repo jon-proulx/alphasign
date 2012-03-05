@@ -17,9 +17,15 @@ Jeweler::Tasks.new do |gem|
   gem.name = "alphasign"
   gem.homepage = "http://github.com/jon-proulx/alphasign"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "jon@csail.mit.edu"
+  gem.summary = "A gem for communicating with LED signs using Alpha Sign Protocol "
+  gem.description = <<-EOF
+Alphasign is handles communication with LED signs using the Alpha Sign Protocol. 
+These include Alpha signs  and  Betabrite signs by Adaptive Micro Systems, maybe 
+others too, YMMV. 
+
+Initial release only handles writing text to the sign over rs232 serial port.  
+EOF
+  gem.email = "jon@jonproulx.com"
   gem.authors = ["Jon Proulx"]
   # dependencies defined in Gemfile
 end
