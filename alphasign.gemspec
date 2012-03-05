@@ -28,6 +28,7 @@ Initial release only handles writing text to the sign over rs232 serial port.
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "alphasign.gemspec",
     "lib/alphasign.rb",
     "test/helper.rb",
     "test/test_alphasign.rb"
