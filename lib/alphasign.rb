@@ -5,8 +5,8 @@ class AlphaSign
   #We have a relatively large number of potocol and formatting constants
   require 'alphasign/protocol'
   require 'alphasign/format'
-  import AlphaSign::Protocol
-  import AlphaSign::Format
+  include AlphaSign::Protocol
+  include AlphaSign::Format
   # @param [String] device the serial device the sign is connected to
   # for now we only speak rs232
   def  initialize (device = "/dev/ttyS0")
