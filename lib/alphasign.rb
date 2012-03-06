@@ -77,7 +77,7 @@ class AlphaSign
 
   # we don't have an open yet so this still kludgey and enfoces using
   # only :wtxt command as thats the only one we know we can do
-   def  write (msg, position=:middle, mode=:rotate)
+   def  write (msg, position=:middle, mode=:hold)
      @alphaFormat = StartMode + Position[position] + Mode[mode]
      @alphaHeader =  StartHeader + @addr +  StartCMD[:wtxt] + @alphaFormat
      sp=SerialPort.new(@device,  
