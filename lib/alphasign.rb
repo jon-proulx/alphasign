@@ -58,7 +58,8 @@ class AlphaSign
   }
 
   Footer = [0x04].pack("C") # EOT end of transmission
-
+  
+  # standard color codes, limited by hardware
   Color = {
     :red => [0x1c,0x31].pack("C2"),
     :green => [0x1c,0x32].pack("C2"),
@@ -73,6 +74,21 @@ class AlphaSign
     :mix => [0x1c,0x42].pack("C2"),
     :auto => [0x1c,0x43].pack("C2"),
   }
+
+  # Character sets height & style
+  CharSet = {
+    :5std => [0x1a,0x31].pack("C2"),
+    :7std => [0x1a,0x33].pack("C2"),
+    :7fancy => [0x1a,0x35].pack("C2"),
+    :10std => [0x1a,0x36].pack("C2"),
+    :fullfancy => [0x1a,0x38].pack("C2"),
+    :fullstd => [0x1a,0x39].pack("C2"),
+  }
+
+  # speeds from slow to fast
+  Speed = [ [0x15].pack("C"), [0x16].pack("C"), [0x17].pack("C"),
+            [0x18].pack("C"), [0x19].pack("C") ]
+
   # @param [String] device the serial device the sign is connected to
   # for now we only speak rs232
   def  initialize (device = "/dev/ttyS0")
