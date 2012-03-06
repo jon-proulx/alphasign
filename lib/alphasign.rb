@@ -60,18 +60,18 @@ class AlphaSign
   Footer = [0x04].pack("C") # EOT end of transmission
 
   Color = {
-    :red => [0x1c,0x31].pack(C2),
-    :green => [0x1c,0x32].pack(C2),
-    :amber => [0x1c,0x33].pack(C2),
-    :dimred => [0x1c,0x34].pack(C2),
-    :dimgreen => [0x1c,0x35].pack(C2),
-    :brown => [0x1c,0x36].pack(C2),
-    :orange => [0x1c,0x37].pack(C2),
-    :yellow => [0x1c,0x38].pack(C2),
-    :rainbow1 => [0x1c,0x39].pack(C2),
-    :rainbow2 => [0x1c,0x41].pack(C2),
-    :mix => [0x1c,0x42].pack(C2),
-    :auto => [0x1c,0x43].pack(C2),
+    :red => [0x1c,0x31].pack("C2"),
+    :green => [0x1c,0x32].pack("C2"),
+    :amber => [0x1c,0x33].pack("C2"),
+    :dimred => [0x1c,0x34].pack("C2"),
+    :dimgreen => [0x1c,0x35].pack("C2"),
+    :brown => [0x1c,0x36].pack("C2"),
+    :orange => [0x1c,0x37].pack("C2"),
+    :yellow => [0x1c,0x38].pack("C2"),
+    :rainbow1 => [0x1c,0x39].pack("C2"),
+    :rainbow2 => [0x1c,0x41].pack("C2"),
+    :mix => [0x1c,0x42].pack("C2"),
+    :auto => [0x1c,0x43].pack("C2"),
   }
   # @param [String] device the serial device the sign is connected to
   # for now we only speak rs232
