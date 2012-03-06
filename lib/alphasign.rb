@@ -77,10 +77,10 @@ class AlphaSign
 
   # Character sets height & style
   CharSet = {
-    :5std => [0x1a,0x31].pack("C2"),
-    :7std => [0x1a,0x33].pack("C2"),
-    :7fancy => [0x1a,0x35].pack("C2"),
-    :10std => [0x1a,0x36].pack("C2"),
+    :std5 => [0x1a,0x31].pack("C2"),
+    :std7 => [0x1a,0x33].pack("C2"),
+    :fancy7 => [0x1a,0x35].pack("C2"),
+    :std10 => [0x1a,0x36].pack("C2"),
     :fullfancy => [0x1a,0x38].pack("C2"),
     :fullstd => [0x1a,0x39].pack("C2"),
   }
