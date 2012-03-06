@@ -17,22 +17,19 @@ class AlphaSign
   Preamble = [ ']', ']'].pack('x10ax10a')
   # everything starts with this, nulls are to auto set baud on unit
   StartHeader = Preamble + [ 0x01 ].pack('x20C')
-  # this is still a bit dubious, docs say "A" for write text file, but
-  # example and experience show "AA" is needed, other codes are as yet
-  # untested YMMV..I simply doubled the char listed in docs. only 'wtxt'
-  # actually works with anything else here
+  # only handlers for :wtxt implemented so far
   StartCMD = {
-    :wtxt => [ 0x02, 'AA' ].pack('CA2'), # write text file
-    :rtxt => [ 0x02, 'BB' ].pack('CA2'), # read text file
-    :wfctn => [ 0x02, 'EE' ].pack('CA2'), # write special function
-    :rfctn => [ 0x02, 'FF' ].pack('CA2'), # read special function
-    :wstr => [ 0x02, 'GG' ].pack('CA2'), # write string file
-    :rstr => [ 0x02, 'HH' ].pack('CA2'), # read string file
-    :wdots => [ 0x02, 'II' ].pack('CA2'), # write DOTS picture file
-    :rdots => [ 0x02, 'JJ' ].pack('CA2'), # read DOTS picture file
-    :wadots => [ 0x02, 'MM' ].pack('CA2'), # write ALPHAVISON DOTS picture file
-    :radots => [ 0x02, 'NN' ].pack('CA2'), # read ALPHAVISON DOTS picture file
-    :bulletin => [ 0x02, 'OO' ].pack('CA2'), # write bulletin message
+    :wtxt => [ 0x02, 'A' ].pack('CA'), # write text file
+    :rtxt => [ 0x02, 'B' ].pack('CA'), # read text file
+    :wfctn => [ 0x02, 'E' ].pack('CA'), # write special function
+    :rfctn => [ 0x02, 'F' ].pack('CA'), # read special function
+    :wstr => [ 0x02, 'G' ].pack('CA'), # write string file
+    :rstr => [ 0x02, 'H' ].pack('CA'), # read string file
+    :wdots => [ 0x02, 'I' ].pack('CA'), # write DOTS picture file
+    :rdots => [ 0x02, 'J' ].pack('CA'), # read DOTS picture file
+    :wadots => [ 0x02, 'M' ].pack('CA'), # write ALPHAVISON DOTS picture file
+    :radots => [ 0x02, 'N' ].pack('CA'), # read ALPHAVISON DOTS picture file
+    :bulletin => [ 0x02, 'O' ].pack('CA'), # write bulletin message
   } 
   
   # Marker for start of mode config
@@ -61,7 +58,9 @@ class AlphaSign
   }
 
   Footer = [0x04].pack("C") # EOT end of transmission
-  
+
+  Color = {
+    :red => 
   # @param [String] device the serial device the sign is connected to
   # for now we only speak rs232
   def  initialize (device = "/dev/ttyS0")
@@ -78,8 +77,12 @@ class AlphaSign
   # we don't have an open yet so this still kludgey and enfoces using
   # only :wtxt command as thats the only one we know we can do
    def  write (msg, position=:middle, mode=:hold)
+     @fileLabel = [ 0x41 ].pack("C") # any value from 0x20 to 0x75
+                                     # except 0x30 which is reserved
+                                     # for "Priority Text" file
+                                     # according to docs
      @alphaFormat = StartMode + Position[position] + Mode[mode]
-     @alphaHeader =  StartHeader + @addr +  StartCMD[:wtxt] + @alphaFormat
+     @alphaHeader =  StartHeader + @addr +  StartCMD[:wtxt] + @fileLabel + @alphaFormat
      sp=SerialPort.new(@device,  
                      Baud,  DataBits,  StopBits,  Parity)
      sp.write @alphaHeader
