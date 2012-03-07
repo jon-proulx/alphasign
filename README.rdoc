@@ -17,7 +17,8 @@ to work.
 
 
 == Contributing to alphasign
- 
+
+* Protocol specification can be found at http://wls.wwco.com/ledsigns/alpha/led97088061.html (complete with sample code in BASIC), this is a good place to start reading 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
 * Fork the project.
