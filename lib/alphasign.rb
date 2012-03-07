@@ -39,7 +39,7 @@ class AlphaSign
 
     raise ArgumentError.new("unkown position #{opts[:position]}") unless Position.has_key?(opts[:position])
     raise ArgumentError.new("unkown mode #{opts[:mode]}") unless Mode.has_key?(opts[:mode])
-    raise ArugmentError.new("invalid File Label specification") unless (opts[:fileLabel] == nil) or  ((opts[:fileLabel].kind_of? Integer) and ( opts[:fileLabel] >= 0x20 and opts[:fileLabel] <= 0x75 and opts[:fileLabel] != 0x30))
+    raise ArgumentError.new("invalid File Label specification") unless (opts[:fileLabel] == nil) or  ((opts[:fileLabel].kind_of? Integer) and ( opts[:fileLabel] >= 0x20 and opts[:fileLabel] <= 0x75 and opts[:fileLabel] != 0x30))
     if opts[:fileLabel] == nil
       @filelabel=""
     else
