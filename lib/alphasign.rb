@@ -24,17 +24,30 @@ class AlphaSign
 
   # we don't have an open yet so this still kludgey and enfoces using
   # only :wtxt command as thats the only one we know we can do @param
-  # [STRING] the message (text file in Alpha parlance) @see AlphaSign::Format
+  # @param [STRING] msg the message (text file in Alpha parlance) @see AlphaSign::Format
   # for control characters for color, font, etc.
-  # @param [SYMBOL] display position @see AlphaSign::Format::Position 
-  # @param [SYMBOL] display mode @see AlphaSign::Format::Mode
-   def  write (msg, position=:middle, mode=:hold)
-     @fileLabel = [ 0x41 ].pack("C") # any value from 0x20 to 0x75
-                                     # except 0x30 which is reserved
-                                     # for "Priority Text" file
-                                     # according to docs
-     @alphaFormat = StartMode + Position[position] + Mode[mode]
-     @alphaHeader =  StartHeader + @addr +  StartCMD[:wtxt] + @fileLabel + @alphaFormat
+  # @param [HASH] opts the write options
+  # @option opts [Symbol] :position display position @see AlphaSign::Format::Position 
+  # @options opts [Symbol] :mode display mode @see AlphaSign::Format::Mode
+  # @options opts [Integer] or [Nil] :fileLabel file label to write to
+  # or  nil (for comand modes that don't use it) any value from 0x20
+  # to 0x75 except 0x30 which is reserved
+  def  write (msg, opts={ })
+    opts[:position]=:middle unless opts[:position] # default to middle position
+    opts[:mode]=:hold unless opts[:mode] #default to static display
+    opts[:fileLabel] =  0x41 unless opts[:fileLabel] #this was default in exampelso why not..
+
+    raise ArgumentError.new("unkown position #{opts[:position]}") unless Position.has_key?(opts[:position])
+    raise ArgumentError.new("unkown mode #{opts[:mode]}") unless Mode.has_key?(opts[:mode])
+    raise ArugmentError.new("invalid File Label specification") unless (opts[:fileLabel] == nil) or  ((opts[:fileLabel].kind_of? Integer) and ( opts[:fileLabel] >= 0x20 and opts[:fileLabel] <= 0x75 and opts[:fileLabel] != 0x30))
+    if opts[:fileLabel] == nil
+      @filelabel=""
+    else
+      @filelabel=[opts[:fileLabel]].pack("C")
+    end
+
+     @alphaFormat = StartMode + Position[opts[:position]] + Mode[opts[:mode]]
+     @alphaHeader =  StartHeader + @addr +  StartCMD[:wtxt] + @filelabel + @alphaFormat
      sp=SerialPort.new(@device,  
                      Baud,  DataBits,  StopBits,  Parity)
      sp.write @alphaHeader
