@@ -7,6 +7,8 @@ class AlphaSign
   require 'alphasign/format'
   include AlphaSign::Protocol
   include AlphaSign::Format
+
+
   # @param [String] device the serial device the sign is connected to
   # for now we only speak rs232
   def  initialize (device = "/dev/ttyS0")
@@ -21,7 +23,11 @@ class AlphaSign
   end
 
   # we don't have an open yet so this still kludgey and enfoces using
-  # only :wtxt command as thats the only one we know we can do
+  # only :wtxt command as thats the only one we know we can do @param
+  # [STRING] the message (text file in Alpha parlance) @see AlphaSign::Format
+  # for control characters for color, font, etc.
+  # @param [SYMBOL] display position @see AlphaSign::Format::Position 
+  # @param [SYMBOL] display mode @see AlphaSign::Format::Mode
    def  write (msg, position=:middle, mode=:hold)
      @fileLabel = [ 0x41 ].pack("C") # any value from 0x20 to 0x75
                                      # except 0x30 which is reserved
