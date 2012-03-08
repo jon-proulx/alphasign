@@ -56,6 +56,11 @@ class AlphaSign
      sp.close
    end
 
-
-
+#raw serial port for testing this will go away (or atleast become private)
+  def rawwrite (msg)
+    sp=SerialPort.new(@device,                                                             
+                      Baud,  DataBits,  StopBits,  Parity) 
+    sp.write msg
+    sp.close
+  end
 end
