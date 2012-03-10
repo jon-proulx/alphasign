@@ -30,17 +30,4 @@ class TestAlphasign < Test::Unit::TestCase
     end
   end
 
-  def test_write_to_file_label
-    assert_nothing_raised do
-      @sign.write("foo", :fileLabel=>nil)
-      @sign.write("foo", :fileLabel=>0x20)
-      @sign.write("foo", :fileLabel=>0x29)
-      @sign.write("foo", :fileLabel=>0x31)
-      @sign.write("foo", :fileLabel=>0x75)
-    end    
-    assert_raise(ArgumentError) {@sign.write("foo", :fileLabel=>"foo")}
-    assert_raise(ArgumentError) {@sign.write("foo", :fileLabel=>0x19)}
-    assert_raise(ArgumentError) {@sign.write("foo", :fileLabel=>0x30)}
-    assert_raise(ArgumentError) {@sign.write("foo", :fileLabel=>0x76)}
-  end
 end
