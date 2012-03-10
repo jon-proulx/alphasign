@@ -11,18 +11,17 @@ module AlphaSign::Format
     :fill => [ 0x30 ].pack('C'),
   }
   # Mode Code, names taken form documentation
-  # since these are ascii probably don't need packing?
   Mode = {
-    :rotate => ["a"].pack('A'), #scroll right to left
-    :hold => ["b"].pack('A'), # stationary
-    :flash => ["c"].pack('A'), #"flash"
+    :rotate => "a", #scroll right to left
+    :hold => "b", # stationary
+    :flash => "c", #"flash"
     # these are all transitions from previous message:
-    :rollup => ["e"].pack('A'),
-    :rolldown => ["f"].pack('A'),
-    :rollleft => ["g"].pack('A'),
-    :rollright => ["h"].pack('A'),
-    :wipeup => ["i"].pack('A'),
-    :wipedown => ["j"].pack('A'),
+    :rollup => "e",
+    :rolldown => "f",
+    :rollleft => "g",
+    :rollright => "h",
+    :wipeup => "i",
+    :wipedown => "j",
   }
   
   # standard color codes, limited by hardware
