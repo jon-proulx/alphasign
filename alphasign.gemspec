@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{alphasign}
-  s.version = "0.1.2"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jon Proulx"]
-  s.date = %q{2012-03-05}
+  s.date = %q{2012-03-10}
   s.description = %q{Alphasign is handles communication with LED signs using the Alpha Sign Protocol. 
 These include Alpha signs  and  Betabrite signs by Adaptive Micro Systems, maybe 
 others too, YMMV. 
@@ -23,6 +23,8 @@ Initial release only handles writing text to the sign over rs232 serial port.
   ]
   s.files = [
     ".document",
+    "ACKNOWLEDGEMENTS",
+    "CHANGELOG",
     "Gemfile",
     "LICENSE.txt",
     "README.rdoc",
@@ -30,6 +32,8 @@ Initial release only handles writing text to the sign over rs232 serial port.
     "VERSION",
     "alphasign.gemspec",
     "lib/alphasign.rb",
+    "lib/alphasign/format.rb",
+    "lib/alphasign/protocol.rb",
     "test/helper.rb",
     "test/test_alphasign.rb"
   ]
