@@ -30,6 +30,8 @@ module AlphaSign::Protocol
     :radots => [ 0x02, 'N' ].pack('CA'), # read ALPHAVISON DOTS picture file
     :bulletin => [ 0x02, 'O' ].pack('CA'), # write bulletin message
   } 
+
+  AlphaFile=Struct.new(:name,:type,:size_spec,:time_spec)
   
   Footer = [0x04].pack("C") # EOT end of transmission
   
