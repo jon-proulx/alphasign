@@ -67,7 +67,6 @@ class AlphaSign
     # rebuld memory string from our current files hash damn this is
     # ugly maybe I do want files to be a Class not a Struct...
     @files.keys.each do |file|
-      puts @memorystring
       if @files[file].type == :str
         locked="L"
       else
@@ -78,15 +77,12 @@ class AlphaSign
         FileType[@files[file].type] + locked + 
         @files[file].size_spec + @files[file].time_spec
     end
-    puts "Writing memorystring:"
-    puts @memorystring
     rawwrite @memorystring
   end
 
 # the most generic write function
   private
   def rawwrite (msg)
-    puts "writing: " + StartHeader + @addr + msg + Footer
     @device.write  StartHeader + @addr + msg + Footer
   end
 
