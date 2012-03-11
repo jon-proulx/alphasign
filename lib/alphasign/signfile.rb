@@ -33,8 +33,6 @@ class AlphaSign::SignFile
     @type=type
   end
 
-  def label ( ) @label end
-
-  def type  ( ) @type end 
+  attr_reader :label, :type
 
 end
