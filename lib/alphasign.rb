@@ -28,17 +28,18 @@ class AlphaSign
     # going to expose that possibility yet but we will recognize this
     # as an instance variable Where "Z" all unit types, "00" is broadcast
     @addr = 'Z00'
+
+    # write out initial memory config to sign
     writemem
   end
 
-  # we don't have an open yet so this still kludgey and enfoces using
-  # only :wtxt command as thats the only one we know we can do @param
+  # This is for writing "txt" files
   # @param [STRING] msg the message (text file in Alpha parlance) 
   # @see AlphaSign::Format for control characters for color, font, etc.
   # @param [HASH] opts the write options
   # @option opts [Symbol] :position display position @see AlphaSign::Format::Position 
   # @options opts [Symbol] :mode display mode @see AlphaSign::Format::Mode
-
+  # @options opts [Symbol] :filename a key from @files hash for a configure :txt file
   def  write (msg, opts={ })
 
     # default to middle position
@@ -50,11 +51,31 @@ class AlphaSign
     # sign file to write to, carefule these need to be setup before
     # they can be written to...
     opts[:filename]=:default unless opts [:filename]
- 
+    raise ArgumentError.new(":filename must be a preconfigured as a txt file in momory")unless @files[opts[:filename]].type == :txt
+    
     @format = StartMode + Position[opts[:position]] + Mode[opts[:mode]]
 
     rawwrite  StartCMD[:wtxt]+ @files[opts[:filename]].label + @format + msg 
    end
+  
+  # write to a string file (this must then be called from a text file
+  # for display, but string files are buffered so good for frequent
+  # updates without flashing screen like txt files do
+  # @param [STRING] msg the message string 
+  # @see AlphaSign::Format for control characters for color, font, etc.
+  # @param [Symbol] filename a key from @files hash for a configure :txt file
+  # defaults to ":str1" part of default memory config
+ 
+  def writestr (msg,filename=:str1)
+    raise ArgumentError.new(":filename must be a preconfigured as a string file in momory")unless @files[opts[:filename]].type == :str
+    rawwrite StsrtCMD[:wstr] + @files[opts[:filename]].label + msg
+  end
+
+  # this returns code to insert a named string file in txt file
+  def callstr (filename=:str1)
+    raise ArgumentError.new(":filename must be a preconfigured as a string file in momory")unless @files[opts[:filename]].type == :str
+    CallDots <<  @files[opts[:filename]].label
+  end
 
 # write a memory config.  This is all at once can't add files even if
 # there's unassigned memory, so what ever is written overwrites
