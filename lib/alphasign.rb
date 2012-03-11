@@ -67,14 +67,14 @@ class AlphaSign
   # defaults to ":str1" part of default memory config
  
   def writestr (msg,filename=:str1)
-    raise ArgumentError.new(":filename must be a preconfigured as a string file in momory")unless @files[opts[:filename]].type == :str
-    rawwrite StsrtCMD[:wstr] + @files[opts[:filename]].label + msg
+    raise ArgumentError.new("filename must be a preconfigured as a string file in momory")unless @files[filename].type == :str
+    rawwrite StartCMD[:wstr] + @files[filename].label + msg
   end
 
   # this returns code to insert a named string file in txt file
   def callstr (filename=:str1)
-    raise ArgumentError.new(":filename must be a preconfigured as a string file in momory")unless @files[opts[:filename]].type == :str
-    CallDots <<  @files[opts[:filename]].label
+    raise ArgumentError.new("filename must be a preconfigured as a string file in momory")unless @files[filename].type == :str
+    CallString +  @files[filename].label
   end
 
 # write a memory config.  This is all at once can't add files even if
