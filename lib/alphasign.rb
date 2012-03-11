@@ -18,7 +18,7 @@ class AlphaSign
     # just enforce our own & hope no other process is messing with it
     # (that's why we're 0.x.x)
     @files={
-      :default => AlphaSign::SignFile.new(:txt,:fileLabel=>"A")
+      :default => AlphaSign::SignFile.new(self,:txt,:fileLabel=>"A")
     }
 
     # Protocol allows multiple signs on the same port, we are not
