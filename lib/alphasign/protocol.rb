@@ -31,6 +31,13 @@ module AlphaSign::Protocol
     :bulletin => [ 0x02, 'O' ].pack('CA'), # write bulletin message
   } 
 
+  # FileType is used in allocating sign memory 
+  FileType = {
+    :txt => "A", # Text file
+    :str => "B", # String file
+    :dot => "D", # Dots picture file
+  }
+
   AlphaFile=Struct.new(:name,:type,:size_spec,:time_spec)
   
   Footer = [0x04].pack("C") # EOT end of transmission
