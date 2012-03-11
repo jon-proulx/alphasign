@@ -5,7 +5,6 @@ class AlphaSign
   #We have a relatively large number of potocol and formatting constants
   require 'alphasign/protocol'
   require 'alphasign/format'
-  require 'alphasign/signfile'
   include AlphaSign::Protocol
   include AlphaSign::Format
 
@@ -18,15 +17,18 @@ class AlphaSign
     # just enforce our own & hope no other process is messing with it
     # (that's why we're 0.x.x)
     @files={
-      :default => AlphaSign::SignFile.new(self,:txt,:fileLabel=>"A")
+      :default => AlphaFile.new(:txt, "A", "0100", "FF00"),
+      :str1   => AlphaFile.new(:str, "B", "0050", "0000"),
+      :str2   => AlphaFile.new(:str, "C", "0050", "0000"),
+      :dot1   => AlphaFile.new(:dot, "D", "1078", "2000"),
+      :dot2   => AlphaFile.new(:dot, "E", "1078", "2000"),
     }
 
     # Protocol allows multiple signs on the same port, we are not
     # going to expose that possibility yet but we will recognize this
-    # as an instance variable Where "Z" all units, "00" first unit or
-    # broadcast?
-    @addr = [ 'Z00' ].pack('A3')
-    
+    # as an instance variable Where "Z" all unit types, "00" is broadcast
+    @addr = 'Z00'
+    writemem
   end
 
   # we don't have an open yet so this still kludgey and enfoces using
@@ -54,9 +56,39 @@ class AlphaSign
     rawwrite  StartCMD[:wtxt]+ @files[opts[:filename]].label + @format + msg 
    end
 
+# write a memory config.  This is all at once can't add files even if
+# there's unassigned memory, so what ever is written overwrites
+# previous config
+  private
+  def writemem
+    #reset memorystring
+    @memorystring=StartCMD[:wfctn]+"$" # "$" is the memory function
+    locked="U"
+    # rebuld memory string from our current files hash damn this is
+    # ugly maybe I do want files to be a Class not a Struct...
+    @files.keys.each do |file|
+      puts @memorystring
+      if @files[file].type == :str
+        locked="L"
+      else
+        locked="U"
+      end
+      @memorystring=@memorystring + 
+        @files[file].label +
+        FileType[@files[file].type] + locked + 
+        @files[file].size_spec + @files[file].time_spec
+    end
+    puts "Writing memorystring:"
+    puts @memorystring
+    rawwrite @memorystring
+  end
+
 # the most generic write function
   private
   def rawwrite (msg)
+    puts "writing: " + StartHeader + @addr + msg + Footer
     @device.write  StartHeader + @addr + msg + Footer
   end
+
+
 end
