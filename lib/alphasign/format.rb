@@ -89,6 +89,8 @@ module AlphaSign::Format
             [0x18].pack("C"), [0x19].pack("C") ]
 
   #Control Codes (for insertion in text file data)
+  CallString = [0x10].pack("C") # call a saved string file, must be followed but filelabel for a string file...
+  CallDots = [0x14].pack("C") # call a saved Dots Picture file, must be followed but filelabel for a dots file...
   DoubleHighOn = [0x05,0x31].pack("C2") # not supported on all units
   DoubleHighOff= [0x05,0x30].pack("C2") # default
   TrueDecendersOn = [0x06,0x31].pack("C2") # not supported on all units
