@@ -38,7 +38,6 @@ class AlphaSign
 
     # write out initial memory config to sign
     writemem
-    attr_reader @memsync, @addr
   end
 
   # This is for writing "txt" files
