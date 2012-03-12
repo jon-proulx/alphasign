@@ -30,4 +30,21 @@ class TestAlphasign < Test::Unit::TestCase
     end
   end
 
+  def test_sting_files
+    assert_nothing_raised do
+      @sign.writestr("foo")
+      @sign.writestr("foo",:str1)
+      @sign.writestr("foo",:str2)
+      @sign.callstr
+      @sign.callstr(:str1)
+      @sign.callstr(:str2)
+    end
+    assert_raise(ArgumentError) do
+      @sign.writestr("foo",:default)
+      @sign.writestr("foo",:nonesuch)
+      @sign.callstr(:default)
+      @sign.callstr(:nonesuch)
+    end
+  end
 end
+
