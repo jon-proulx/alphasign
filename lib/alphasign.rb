@@ -47,7 +47,7 @@ class AlphaSign
   # @param [HASH] opts the write options
   # @option opts [Symbol] :position display position @see AlphaSign::Format::Position 
   # @options opts [Symbol] :mode display mode @see AlphaSign::Format::Mode
-  # @options opts [Symbol] :filename a key from @files hash for a configure :txt file
+  # @options opts [Symbol] :filename a key from @files hash for a configured :txt file
   def  write (msg, opts={ })
 
     # default to middle position
