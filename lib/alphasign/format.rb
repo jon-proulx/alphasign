@@ -97,7 +97,7 @@ module AlphaSign::Format
   TrueDecendersOff= [0x06,0x30].pack("C2") # default
   FlashCharOn = [0x07,0x31].pack("C2") # not supported on all units
   FlashCharOff= [0x07,0x30].pack("C2") # default
-
+  FixWidth=[0x1E,0x31].pack("C2") # set fixed width useful for string files
   Extended=[0x08].pack("C") # access extended ascci of following char for example Extended + "I" would put a degree symbol on the display, see docs
 
   TempF=[0x08,0x1C].pack("C2") #only available on incandescent message centers
