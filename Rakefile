@@ -19,11 +19,14 @@ Jeweler::Tasks.new do |gem|
   gem.license = "MIT"
   gem.summary = "A gem for communicating with LED signs using Alpha Sign Protocol "
   gem.description = <<-EOF
-Alphasign is handles communication with LED signs using the Alpha Sign Protocol. 
-These include Alpha signs  and  Betabrite signs by Adaptive Micro Systems, maybe 
-others too, YMMV. 
+Alphasign is handles communication with LED signs using the
+Alpha Sign Protocol. These include Alpha signs and Betabrite signs
+by Adaptive Micro Systems, maybe others too, YMMV.
 
-Initial release only handles writing text to the sign over rs232 serial port.  
+This release handles writing "text files" and "string" files to the
+sign over rs232 serial port, using a fixed memory configuration.  Upcoming
+releases will add "dots picture" files and memory user accesable memory 
+file configuration.
 EOF
   gem.email = "jon@jonproulx.com"
   gem.authors = ["Jon Proulx"]

@@ -30,6 +30,25 @@ module AlphaSign::Protocol
     :radots => [ 0x02, 'N' ].pack('CA'), # read ALPHAVISON DOTS picture file
     :bulletin => [ 0x02, 'O' ].pack('CA'), # write bulletin message
   } 
+
+  # FileType is used in allocating sign memory 
+  FileType = {
+    :txt => "A", # Text file
+    :str => "B", # String file
+    :dot => "D", # Dots picture file
+  }
+
+  # @param [Synmbol] type file type must be a key of
+  # AlphaSign::Protocol::FileType 
+  # @param [String] label, file label to assign 0x20 to 0x75 (0x30 is
+  # reserver for "priority text file"
+  # @param [String] file size, 4 char uppercase ASCII hex
+  # representation
+  # @param [String] time spec, 4 char uppercase ASCII hex
+  # representation.  First two char represent start time code, second
+  # two end time code "FF00" == always, see docs for full spec, it's
+  # wierd...
+  AlphaFile=Struct.new(:type,:label,:size_spec,:time_spec)
   
   Footer = [0x04].pack("C") # EOT end of transmission
   
