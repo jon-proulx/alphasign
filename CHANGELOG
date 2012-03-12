@@ -1,5 +1,7 @@
-* 0.3.0pre0
-  Implement managemnet of file labels on sign
+* 0.3.0
+  Implement fixed set of memory files
+  Implement string file write and call
+  Add examples/alphaclock.rb usage example
 * 0.2.0 
   write method now takes STRING and HASH of options (this is
         incompatible with older positional args)
