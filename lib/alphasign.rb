@@ -13,14 +13,21 @@ class AlphaSign
   # for now we only speak rs232
   def  initialize (device = "/dev/ttyS0")
     @device=SerialPort.new(device, Baud,  DataBits,  StopBits,  Parity) 
+    @memsync=false
     # default file setup, we should read this from the device, for now
     # just enforce our own & hope no other process is messing with it
     # (that's why we're 0.x.x)
     @files={
+      # 256 byte text file always displayed
       :default => AlphaFile.new(:txt, "A", "0100", "FF00"),
+      # 80 byte string file
       :str1   => AlphaFile.new(:str, "B", "0050", "0000"),
+      # another string file
       :str2   => AlphaFile.new(:str, "C", "0050", "0000"),
+      # 16 (0x10) row by 120 (0x78) column dots file in 3 colors
+      # not sure why but htat's what "2000" means in this context
       :dot1   => AlphaFile.new(:dot, "D", "1078", "2000"),
+      # another dots file
       :dot2   => AlphaFile.new(:dot, "E", "1078", "2000"),
     }
 
@@ -31,6 +38,7 @@ class AlphaSign
 
     # write out initial memory config to sign
     writemem
+    attr_reader @memsync, @addr
   end
 
   # This is for writing "txt" files
@@ -99,6 +107,7 @@ class AlphaSign
         @files[file].size_spec + @files[file].time_spec
     end
     rawwrite @memorystring
+    @memsync=true
   end
 
 # the most generic write function
