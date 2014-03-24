@@ -1,8 +1,9 @@
 = alphasign
 
-A little gem to put messages on an LED sign, if that sign speak Alpha
-Sign protocol, and if I don't get my sign taken away before I get this
-to work.
+A little gem to put messages on an LED sign, if that sign speaks Alpha
+Sign protocol. Development is stopped for now as I no longer have a
+compatible sign to work on.
+
 
 == Example code
 
